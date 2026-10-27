@@ -1,0 +1,19 @@
+# Ambiente virtual
+venv/
+.venv/
+
+# Caches Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Banco SQLite local
+db.sqlite3
+db.sqlite3-journal
+db.sqlite3-wal
+db.sqlite3-shm
+
+# Configurações locais e segredos
+.env
+.env.*
+!.env.example
