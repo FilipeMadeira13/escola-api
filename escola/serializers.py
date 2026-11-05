@@ -14,7 +14,7 @@ class EstudanteSerializer(serializers.ModelSerializer):
         if nome_invalido(dados['nome']):
             raise serializers.ValidationError({'nome': 'O nome só pode conter letras.'})
         if celular_invalido(dados['numero_celular']):
-            raise serializers.ValidationError({'numero_celular': 'O número do celular não está no formato correto!'})
+            raise serializers.ValidationError({'numero_celular': 'O número do celular não está no formato correto (86 99999-9999, respeitando traços e espaços)!'})
         return dados
 
 
