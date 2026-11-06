@@ -1,4 +1,5 @@
-from rest_framework import generics, viewsets
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters, generics, viewsets
 
 from escola.models import Curso, Estudante, Matricula
 from escola.serializers import CursoSerializer, EstudanteSerializer, ListaMatriculasCursoSerializer, ListaMatriculasEstudanteSerializer, MatriculaSerializer
@@ -7,6 +8,9 @@ from escola.serializers import CursoSerializer, EstudanteSerializer, ListaMatric
 class EstudanteViewSet(viewsets.ModelViewSet):
     queryset = Estudante.objects.all()
     serializer_class = EstudanteSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
+    ordering_fields = ['nome']
+    search_fields = ['nome', 'cpf']
 
 
 class CursoViewSet(viewsets.ModelViewSet):

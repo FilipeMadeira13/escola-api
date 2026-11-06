@@ -1,5 +1,6 @@
 asgiref==3.12.1
 Django==6.1.2
+django-filter==26.2
 djangorestframework==3.18.3
 Faker==40.44.0
 Markdown==3.11.2
