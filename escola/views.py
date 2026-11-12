@@ -18,6 +18,13 @@ from escola.throttles import MatriculaAnonRateThrottle
 
 
 class EstudanteViewSet(viewsets.ModelViewSet):
+    """
+    Descrição da View:
+    - Lista Estudantes
+    Parâmetros:
+    - ordering_fields: Lista ordenada por nome.
+    - search_fields: Termo de busca por nome ou cpf.
+    """
     queryset = Estudante.objects.all().order_by("id")
     # serializer_class = EstudanteSerializer
     filter_backends = [
@@ -37,11 +44,22 @@ class EstudanteViewSet(viewsets.ModelViewSet):
 
 
 class CursoViewSet(viewsets.ModelViewSet):
+    """
+    Descrição da View:
+    - Lista Cursos
+    """
     queryset = Curso.objects.all().order_by("id")
     serializer_class = CursoSerializer
 
 
 class MatriculaViewSet(viewsets.ModelViewSet):
+    """
+    Descrição da View:
+    - Lista Matriculas
+    Métodos Aceitos:
+    - GET
+    - POST
+    """
     queryset = Matricula.objects.all().order_by("id")
     serializer_class = MatriculaSerializer
     throttle_classes = [UserRateThrottle, MatriculaAnonRateThrottle]
@@ -49,18 +67,33 @@ class MatriculaViewSet(viewsets.ModelViewSet):
 
 
 class ListaMatriculasEstudante(generics.ListAPIView):
+    """
+    Descrição da View:
+    - Lista Matriculas por id de Estudante
+    Parâmetros:
+    - pk (int): O identificador primário do objeto. Deve ser um número inteiro.
+    """
     def get_queryset(self):
-        queryset = Matricula.objects.filter(estudante_id=self.kwargs["pk"]).order_by(
+        if getattr(self, "swagger_fake_view", False):
+            return Matricula.objects.none()
+        return Matricula.objects.filter(estudante_id=self.kwargs["pk"]).order_by(
             "id"
         )
-        return queryset
 
     serializer_class = ListaMatriculasEstudanteSerializer
 
 
 class ListaMatriculasCurso(generics.ListAPIView):
+    """
+    Descrição da View:
+    - Lista Matriculas por id de Curso
+    Parâmetros:
+    - pk (int): O identificador primário do objeto. Deve ser um número inteiro.
+    """
     def get_queryset(self):
-        queryset = Matricula.objects.filter(curso_id=self.kwargs["pk"]).order_by("id")
-        return queryset
+        if getattr(self, "swagger_fake_view", False):
+            return Matricula.objects.none()
+        return Matricula.objects.filter(curso_id=self.kwargs["pk"]).order_by("id")
+        
 
     serializer_class = ListaMatriculasCursoSerializer
