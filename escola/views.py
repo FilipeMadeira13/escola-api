@@ -4,6 +4,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, generics, viewsets
 from rest_framework.request import Request
 from rest_framework.throttling import UserRateThrottle
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 from escola.models import Curso, Estudante, Matricula
 from escola.serializers import (
@@ -50,7 +51,7 @@ class CursoViewSet(viewsets.ModelViewSet):
     """
     queryset = Curso.objects.all().order_by("id")
     serializer_class = CursoSerializer
-
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 class MatriculaViewSet(viewsets.ModelViewSet):
     """
